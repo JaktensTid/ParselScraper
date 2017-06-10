@@ -14,9 +14,10 @@ class ParselSpider(scrapy.Spider):
     name = 'parselspider'
 
     all_parsels = list([d['\ufeffPARCELNB'] for d in csv.DictReader(open('./spiders/parsels.csv'))])
+    found = set(['0' + d['id'] for d in collection.find({}, {'id' : 1})])
     start_urls = list(['https://gisapp.adcogov.org/quicksearch/doreport.aspx?pid=%s' % i
-                  for i in list(set(all_parsels) -
-                                set([d['id'] for d in collection.find({}, {'id' : 1})]))])
+                  for i in list(set(all_parsels) - found)])
+    print('Urls count: ' + str(len(start_urls)))
 
     def extract_text(self, selector):
         result = selector.xpath(".//text()").extract()
@@ -36,6 +37,7 @@ class ParselSpider(scrapy.Spider):
                 property = ','.join([entry
                     for entry in tr.xpath(".//td[@id='propertyContentCell']/span//text()").extract() if entry])
                 item['Property table'].append({'owner' : owner, 'property' : property})
+                break
 
             item['Legal description'] = response.xpath('.//span[@id="propertyReport"]/span[2]/span[9]/div/span//text()').extract()[0]
             item['Subdivision plat'] = response.xpath('//*[@id="propertyReport"]/span[2]/span[12]/div/span//text()').extract()[0]
@@ -61,8 +63,8 @@ class ParselSpider(scrapy.Spider):
                                                 "Page" : self.extract_text(tds[5]),
                                                 "Grantor" : self.extract_text(tds[6]),
                                                 "Grantee" : self.extract_text(tds[7]),
-                                                "Doc. Fee" : self.extract_text(tds[8]),
-                                                "Doc. Date" : self.extract_text(tds[9])})
+                                                "Doc Fee" : self.extract_text(tds[8]),
+                                                "Doc Date" : self.extract_text(tds[9])})
 
             item['Land Valuation Summary'] = []
             valuation_trs = response.xpath(".//table[contains(.,'Unit of Measure')]/tr")

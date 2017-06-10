@@ -11,5 +11,8 @@ class MongodbPipeLine(object):
         self.collection = db[settings['MONGODB_COLLECTION']]
 
     def process_item(self, item, spider):
-        self.collection.insert_one(item)
+        try:
+            self.collection.insert_one(item)
+        except DuplicateKeyError:
+            print('Duplicate key error')
         return item

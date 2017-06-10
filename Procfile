@@ -1,0 +1,1 @@
+worker: scrapy crawl linksspider
