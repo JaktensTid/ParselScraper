@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from scrapy.conf import settings
-from scrapy import log
 
 total = 0
 class MongodbPipeLine(object):

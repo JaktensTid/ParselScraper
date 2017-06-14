@@ -104,7 +104,7 @@ class ParselSpider(scrapy.Spider):
             item['Individual Built As Detail'] = []
             trs = response.xpath(".//table[contains(.,'Built As')]/tr")
             if len(trs) % 12 == 0:
-                valuation_trs = self.chunks(trs, 6)
+                valuation_trs = self.chunks(trs, 12)
                 for chunk in valuation_trs:
                     part = {}
                     for tr in chunk:
@@ -113,5 +113,5 @@ class ParselSpider(scrapy.Spider):
                         part[self.extract_text(tds[2]).replace(':', '')] = self.extract_text(tds[3])
                     item['Individual Built As Detail'].append(part)
 
-            item['Property within Enterprise Zone'] = response.xpath('//*[@id="propertyReport"]/span[15]/span[11]/div/span//text()').extract()[0]
+            #item['Property within Enterprise Zone'] = response.xpath('//*[@id="propertyReport"]/span[15]/span[11]/div/span//text()').extract()[0]
             yield item
