@@ -89,7 +89,7 @@ def create_geo_locs_csv():
 
 
 def create_full_report_csv():
-    main_data = collection.find({}, {'Legal description' : 1,
+    main_data = list(collection.find({}, {'Legal description' : 1,
                                      'Buildings Valuation Actual Value' : 1,
                                      'Permit cases' : 1,
                                      'Subdivision plat' : 1,
@@ -100,25 +100,27 @@ def create_full_report_csv():
                                      'Land Subtotal Actual Value' : 1,
                                      'Property within Enterprise Zone' : 1,
                                      'Buildings Valuation Assessed Value' : 1
-                                     })
+                                     }))
     workbook = xlwt.Workbook()
     sheet = workbook.add_sheet("Main data")
     for item in main_data:
         item['Property name'] = item['Property table'][0]['property']
         item['Property owner'] = item['Property table'][0]['owner']
-        item['Permit cases'] = item['Permit cases']
+        item['Permit cases'] = ', '.join(item['Permit cases'])
 
     columns = main_data[0].keys()  # list() is not need in Python 2.x
     for i, row in enumerate(main_data):
         for j, col in enumerate(columns):
             sheet.write(i, j, row[col])
 
-    main_data = collection.find({}, {
+    sheet = workbook.add_sheet("Account summary")
+
+    account_summary = list(collection.find({}, {
                                      'id': 1,
                                      'Individual built as detail': 1,
                                      'Property table': 1,
-
-                                     })
+                                     'Account summary' : 1
+                                     }))
 
 
 
