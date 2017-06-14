@@ -17,7 +17,8 @@ class ParselSpider(scrapy.Spider):
     #found = set(['0' + d['id'] for d in collection.find({}, {'id' : 1})])
     #start_urls = list(['https://gisapp.adcogov.org/quicksearch/doreport.aspx?pid=%s' % i
     #              for i in list(set(all_parsels) - found)])
-    start_urls = collection.find({'Individual Built As Detail' : {'$type' : 3}})
+    start_urls = list('https://gisapp.adcogov.org/quicksearch/doreport.aspx?pid=%s' % i['id']
+                       for i in collection.find({'Individual Built As Detail' : {'$type' : 3}}, {'id' : 1}))
     print('Urls count: ' + str(len(start_urls)))
 
     def chunks(self, l, n):

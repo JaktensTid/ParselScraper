@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="de6ee360-ed06-4979-98b1-7439c99a79da" name="Default" comment="" />
+    <list default="true" id="de6ee360-ed06-4979-98b1-7439c99a79da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parselscraping/spiders/parselspider.py" afterPath="$PROJECT_DIR$/parselscraping/spiders/parselspider.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,11 +20,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="parselspider.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="parselspider.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parselscraping/spiders/parselspider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="48" lean-forward="true" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+            <state relative-caret-position="323">
+              <caret line="19" column="91" lean-forward="false" selection-start-line="19" selection-start-column="91" selection-end-line="19" selection-end-column="91" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -30,7 +32,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parselscraping/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
@@ -83,8 +85,8 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/parselscraping/pipelines.py" />
         <option value="$PROJECT_DIR$/parselscraping/spiders/infoparser.py" />
-        <option value="$PROJECT_DIR$/parselscraping/spiders/parselspider.py" />
         <option value="$PROJECT_DIR$/parselscraping/settings.py" />
+        <option value="$PROJECT_DIR$/parselscraping/spiders/parselspider.py" />
       </list>
     </option>
   </component>
@@ -884,21 +886,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/parselscraping/spiders/parselspider.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="91" lean-forward="false" selection-start-line="19" selection-start-column="91" selection-end-line="19" selection-end-column="91" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parselscraping/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="20" column="39" lean-forward="false" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parselscraping/spiders/parselspider.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="48" lean-forward="true" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
