@@ -106,6 +106,21 @@ def create_full_report_csv():
     for item in main_data:
         item['Property name'] = item['Property table'][0]['property']
         item['Property owner'] = item['Property table'][0]['owner']
+        item['Permit cases'] = item['Permit cases']
+
+    columns = main_data[0].keys()  # list() is not need in Python 2.x
+    for i, row in enumerate(main_data):
+        for j, col in enumerate(columns):
+            sheet.write(i, j, row[col])
+
+    main_data = collection.find({}, {
+                                     'id': 1,
+                                     'Individual built as detail': 1,
+                                     'Property table': 1,
+
+                                     })
+
+
 
 
 if __name__ == '__main__':
