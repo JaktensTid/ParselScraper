@@ -1,6 +1,5 @@
 import re
 import csv
-import xlwt
 from pymongo import MongoClient
 from scrapy.conf import settings
 
@@ -89,6 +88,18 @@ def create_geo_locs_csv():
 
 
 def create_full_report_csv():
+    def unpack(data, key):
+        new = []
+        for item in data:
+            for n in item[key]:
+                new_item = {}
+                new_item.update(item)
+                del new_item[key]
+                new_item.update(n)
+                new.append(new_item)
+
+        return new
+
     main_data = list(collection.find({}, {'Legal description' : 1,
                                      'Buildings Valuation Actual Value' : 1,
                                      'Permit cases' : 1,
@@ -99,33 +110,99 @@ def create_full_report_csv():
                                      'Property table' : 1,
                                      'Land Subtotal Actual Value' : 1,
                                      'Property within Enterprise Zone' : 1,
-                                     'Buildings Valuation Assessed Value' : 1
+                                     'Buildings Valuation Assessed Value' : 1,
+                                    '_id' : 0
                                      }))
-    workbook = xlwt.Workbook()
-    sheet = workbook.add_sheet("Main data")
     for item in main_data:
         item['Property name'] = item['Property table'][0]['property']
         item['Property owner'] = item['Property table'][0]['owner']
+        del item['Property table']
         item['Permit cases'] = ', '.join(item['Permit cases'])
-
-    columns = main_data[0].keys()  # list() is not need in Python 2.x
-    for i, row in enumerate(main_data):
-        for j, col in enumerate(columns):
-            sheet.write(i, j, row[col])
-
-    sheet = workbook.add_sheet("Account summary")
+    columns = list(main_data[0].keys())
+    with open('main_data.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in main_data:
+            writer.writerow(item)
 
     account_summary = list(collection.find({}, {
                                      'id': 1,
                                      'Individual built as detail': 1,
                                      'Property table': 1,
-                                     'Account summary' : 1
+                                     'Account summary' : 1,
+                                    '_id' : 0
                                      }))
+    new_account_summary = unpack(account_summary, 'Account summary')
+    for item in new_account_summary:
+        item['Property name'] = item['Property table'][0]['property']
+        item['Property owner'] = item['Property table'][0]['owner']
+        del item['Property table']
+    columns = list(new_account_summary[0].keys())
+    with open('account_summary.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in new_account_summary:
+            writer.writerow(item)
 
+    sales_summary = list(collection.find({}, {
+        'id': 1,
+        'Individual built as detail': 1,
+        'Property table': 1,
+        'Sales summary': 1,
+            '_id' : 0
+    }))
+    new_sales_summary = unpack(sales_summary, 'Sales summary')
+    for item in new_sales_summary:
+        item['Property name'] = item['Property table'][0]['property']
+        item['Property owner'] = item['Property table'][0]['owner']
+        del item['Property table']
+    columns = list(new_sales_summary[0].keys())
+    with open('sales_summary.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in new_sales_summary:
+            writer.writerow(item)
 
+    land_val_summary = list(collection.find({}, {
+        'id': 1,
+        'Individual built as detail': 1,
+        'Property table': 1,
+        'Land Valuation Summary': 1,
+        '_id': 0
+    }))
+    new_land_val_summary = unpack(land_val_summary, 'Land Valuation Summary')
+    for item in new_land_val_summary:
+        item['Property name'] = item['Property table'][0]['property']
+        item['Property owner'] = item['Property table'][0]['owner']
+        del item['Property table']
+    columns = list(new_land_val_summary[0].keys())
+    with open('land_valuation_summary.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in new_land_val_summary:
+            writer.writerow(item)
+
+    buildings_val_summary = list(collection.find({}, {
+        'id': 1,
+        'Individual built as detail': 1,
+        'Property table': 1,
+        'Buildings Valuation Summary': 1,
+        '_id': 0
+    }))
+    new_buildings_val_summary = unpack(buildings_val_summary, 'Buildings Valuation Summary')
+    for item in new_buildings_val_summary:
+        item['Property name'] = item['Property table'][0]['property']
+        item['Property owner'] = item['Property table'][0]['owner']
+        del item['Property table']
+    columns = list(new_buildings_val_summary[0].keys())
+    with open('buildings_val_summary.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in new_buildings_val_summary:
+            writer.writerow(item)
 
 
 if __name__ == '__main__':
-    create_geo_locs_csv()
+    create_full_report_csv()
 
 
