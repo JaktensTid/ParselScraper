@@ -12,7 +12,8 @@ class MongodbPipeLine(object):
 
     def process_item(self, item, spider):
         try:
-            self.collection.insert_one(item)
+            #self.collection.insert_one(item)
+            self.collection.update_one({'id' : item['id'], 'Individual Built As Detail' : item['Individual Built As Detail']})
         except DuplicateKeyError:
             print('Duplicate key error')
         return item
