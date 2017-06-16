@@ -1,5 +1,6 @@
 import re
 import csv
+from collections import defaultdict
 from pymongo import MongoClient
 from scrapy.conf import settings
 
@@ -79,12 +80,7 @@ def create_geo_locs_csv():
 
         items.append(item)
 
-    with open('geo_locs.csv', 'w') as csvfile:
-        fieldnames = list(items[0].keys())
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        for item in items:
-            writer.writerow(item)
+    return items
 
 
 def create_full_report_csv():
@@ -106,7 +102,6 @@ def create_full_report_csv():
                                      'Subdivision plat' : 1,
                                      'Land Subtotal Assessed Value' : 1,
                                      'id' : 1,
-                                     'Individual built as detail' : 1,
                                      'Property table' : 1,
                                      'Land Subtotal Actual Value' : 1,
                                      'Property within Enterprise Zone' : 1,
@@ -115,7 +110,9 @@ def create_full_report_csv():
                                      }))
     for item in main_data:
         item['Property name'] = item['Property table'][0]['property']
-        item['Property owner'] = item['Property table'][0]['owner']
+        splited = item['Property table'][0]['owner'].split(',')
+        item['Owner name'], item['Owner address'] = splited[0], ''.join(splited[1:])
+        item['Owner name'] = item['Owner name'].replace('AND', ' AND ')
         del item['Property table']
         item['Permit cases'] = ', '.join(item['Permit cases'])
     columns = list(main_data[0].keys())
@@ -125,9 +122,54 @@ def create_full_report_csv():
         for item in main_data:
             writer.writerow(item)
 
+    land_val_summary = list(collection.find({}, {
+        'id': 1,
+        'Property table': 1,
+        'Land Valuation Summary': 1,
+        '_id': 0
+    }))
+    new_land_val_summary = unpack(land_val_summary, 'Land Valuation Summary')
+    for item in new_land_val_summary:
+        item['Property name'] = item['Property table'][0]['property']
+        splited = item['Property table'][0]['owner'].split(',')
+        item['Owner name'], item['Owner address'] = splited[0], ''.join(splited[1:])
+        item['Owner name'] = item['Owner name'].replace('AND', ' AND ')
+        del item['Property table']
+    columns = list(new_land_val_summary[0].keys())
+    with open('land_valuation_summary.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in new_land_val_summary:
+            writer.writerow(item)
+
+    d = defaultdict(dict)
+    for l in (main_data, new_land_val_summary):
+        for elem in l:
+            d[elem['id']].update(elem)
+    l3 = d.values()
+    columns = list(set(list(main_data[0].keys()) + list(new_land_val_summary[0].keys())))
+    with open('land_valuation_summary-main_data-merged.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in l3:
+            writer.writerow(item)
+
+    get_locs = create_geo_locs_csv()
+    d = defaultdict(dict)
+    for l in (l3, get_locs):
+        for elem in l:
+            d[elem['id']].update(elem)
+    l3 = d.values()
+    columns = list(columns + list(get_locs[0].keys()))
+    with open('land_valuation_summary-main_data-geo_locs-merged.csv', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=columns)
+        writer.writeheader()
+        for item in l3:
+            writer.writerow(item)
+
+
     account_summary = list(collection.find({}, {
                                      'id': 1,
-                                     'Individual built as detail': 1,
                                      'Property table': 1,
                                      'Account summary' : 1,
                                     '_id' : 0
@@ -135,7 +177,9 @@ def create_full_report_csv():
     new_account_summary = unpack(account_summary, 'Account summary')
     for item in new_account_summary:
         item['Property name'] = item['Property table'][0]['property']
-        item['Property owner'] = item['Property table'][0]['owner']
+        splited = item['Property table'][0]['owner'].split(',')
+        item['Owner name'], item['Owner address'] = splited[0], ''.join(splited[1:])
+        item['Owner name'] = item['Owner name'].replace('AND', ' AND ')
         del item['Property table']
     columns = list(new_account_summary[0].keys())
     with open('account_summary.csv', 'w') as csvfile:
@@ -146,7 +190,6 @@ def create_full_report_csv():
 
     sales_summary = list(collection.find({}, {
         'id': 1,
-        'Individual built as detail': 1,
         'Property table': 1,
         'Sales summary': 1,
             '_id' : 0
@@ -154,7 +197,9 @@ def create_full_report_csv():
     new_sales_summary = unpack(sales_summary, 'Sales summary')
     for item in new_sales_summary:
         item['Property name'] = item['Property table'][0]['property']
-        item['Property owner'] = item['Property table'][0]['owner']
+        splited = item['Property table'][0]['owner'].split(',')
+        item['Owner name'], item['Owner address'] = splited[0], ''.join(splited[1:])
+        item['Owner name'] = item['Owner name'].replace('AND', ' AND ')
         del item['Property table']
     columns = list(new_sales_summary[0].keys())
     with open('sales_summary.csv', 'w') as csvfile:
@@ -163,28 +208,8 @@ def create_full_report_csv():
         for item in new_sales_summary:
             writer.writerow(item)
 
-    land_val_summary = list(collection.find({}, {
-        'id': 1,
-        'Individual built as detail': 1,
-        'Property table': 1,
-        'Land Valuation Summary': 1,
-        '_id': 0
-    }))
-    new_land_val_summary = unpack(land_val_summary, 'Land Valuation Summary')
-    for item in new_land_val_summary:
-        item['Property name'] = item['Property table'][0]['property']
-        item['Property owner'] = item['Property table'][0]['owner']
-        del item['Property table']
-    columns = list(new_land_val_summary[0].keys())
-    with open('land_valuation_summary.csv', 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=columns)
-        writer.writeheader()
-        for item in new_land_val_summary:
-            writer.writerow(item)
-
     buildings_val_summary = list(collection.find({}, {
         'id': 1,
-        'Individual built as detail': 1,
         'Property table': 1,
         'Buildings Valuation Summary': 1,
         '_id': 0
@@ -192,7 +217,9 @@ def create_full_report_csv():
     new_buildings_val_summary = unpack(buildings_val_summary, 'Buildings Valuation Summary')
     for item in new_buildings_val_summary:
         item['Property name'] = item['Property table'][0]['property']
-        item['Property owner'] = item['Property table'][0]['owner']
+        splited = item['Property table'][0]['owner'].split(',')
+        item['Owner name'], item['Owner address'] = splited[0], ''.join(splited[1:])
+        item['Owner name'] = item['Owner name'].replace('AND', ' AND ')
         del item['Property table']
     columns = list(new_buildings_val_summary[0].keys())
     with open('buildings_val_summary.csv', 'w') as csvfile:
