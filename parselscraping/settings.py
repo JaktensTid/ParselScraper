@@ -19,7 +19,7 @@ import os
 ROBOTSTXT_OBEY = True
 #MONGODB_URI = os.environ['MONGODB_URI']
 MONGODB_URI = os.environ['MONGODB_URI']
-MONGODB_DB = 'adcogov'
+MONGODB_DB = 'data'
 MONGODB_COLLECTION = 'parselrecords'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
