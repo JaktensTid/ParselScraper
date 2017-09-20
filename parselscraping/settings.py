@@ -21,7 +21,7 @@ ROBOTSTXT_OBEY = True
 MONGODB_URI = os.environ['MONGODB_URI']
 MONGODB_DB = 'data'
 MONGODB_COLLECTION = 'parselrecords'
-
+RETRY_HTTP_CODES = [502, 503, 504, 400, 408]
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 8
 

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="de6ee360-ed06-4979-98b1-7439c99a79da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parselscraping/spiders/parselspider.py" afterPath="$PROJECT_DIR$/parselscraping/spiders/parselspider.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parselscraping/settings.py" afterPath="$PROJECT_DIR$/parselscraping/settings.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,20 +32,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parselscraping/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="36" lean-forward="true" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
+            <state relative-caret-position="124">
+              <caret line="23" column="25" lean-forward="false" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="parselspider.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="parselspider.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parselscraping/spiders/parselspider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
+            <state relative-caret-position="-81">
               <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
@@ -88,8 +88,8 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/parselscraping/pipelines.py" />
         <option value="$PROJECT_DIR$/parselscraping/spiders/infoparser.py" />
-        <option value="$PROJECT_DIR$/parselscraping/settings.py" />
         <option value="$PROJECT_DIR$/parselscraping/spiders/parselspider.py" />
+        <option value="$PROJECT_DIR$/parselscraping/settings.py" />
       </list>
     </option>
   </component>
@@ -885,21 +885,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parselscraping/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="36" lean-forward="true" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parselscraping/spiders/parselspider.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
+        <state relative-caret-position="-81">
           <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parselscraping/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="23" column="25" lean-forward="false" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
