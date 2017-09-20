@@ -13,7 +13,7 @@ class ParselSpider(scrapy.Spider):
     collection = db[settings['MONGODB_COLLECTION']]
     name = 'parselspider'
 
-    all_parsels = list([d['\ufeffPARCELNB'] for d in csv.DictReader(open('/app/parselscraping/spiders/parsels.csv'))])
+    all_parsels = list([d['PARCELNB'] for d in csv.DictReader(open('/app/parselscraping/spiders/parsels.csv'))])
     found = set(['0' + d['id'] for d in collection.find({}, {'id' : 1})])
     start_urls = list(['https://gisapp.adcogov.org/quicksearch/doreport.aspx?pid=%s' % i
                  for i in list(set(all_parsels) - found)])
